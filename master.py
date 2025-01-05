@@ -1,9 +1,18 @@
 import tkinter as tk
 from tkinter import ttk
 import json
+import os
+import sys
 
-DICTIONARY_FILE = "dictionary.json"
-ARCHIVE_FILE = "archive.json"
+def resource_path(relative_path):
+    """ Получает путь к ресурсу в случае использования PyInstaller """
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+DICTIONARY_FILE = resource_path("dictionary.json")
+ARCHIVE_FILE = resource_path("archive.json")
+
 
 def save_dictionary():
     with open(DICTIONARY_FILE, 'w', encoding='utf-8') as file:
