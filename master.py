@@ -9,8 +9,8 @@ def resource_path(relative_path):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
-DICTIONARY_FILE = resource_path("dictionary.json")
-ARCHIVE_FILE = resource_path("archive.json")
+DICTIONARY_FILE = os.path.join(os.path.abspath("."), "dictionary.json")
+ARCHIVE_FILE = os.path.join(os.path.abspath("."), "archive.json")
 
 
 def save_dictionary():
@@ -84,13 +84,13 @@ def del_arch_word():
 
 def update_listbox(search_query=""):
     listbox.delete(0, tk.END)
-    for eng, rus in data.items():
+    for eng, rus in dict(sorted(data.items())).items():
         if search_query.lower() in eng.lower() or search_query.lower() in rus.lower():
             listbox.insert(tk.END, f"{eng} - {rus}")
 
 def update_archive_listbox(search_query=""):
     archive_listbox.delete(0, tk.END)
-    for eng, rus in archive.items():
+    for eng, rus in dict(sorted(archive.items())).items():
         if search_query.lower() in eng.lower() or search_query.lower() in rus.lower():
             archive_listbox.insert(tk.END, f"{eng} - {rus}")
 
@@ -113,11 +113,13 @@ notebook = ttk.Notebook(window)
 notebook.pack(fill=tk.BOTH, expand=True)
 
 # Main dictionary tab
-frame_main = tk.Frame(notebook, padx=5, pady=5)
+frame_main = ttk.Frame(notebook)
+frame_main.pack(fill=tk.BOTH, expand=True)
 notebook.add(frame_main, text="Dictionary")
 
+#search
 frame_search = tk.Frame(frame_main, padx=5, pady=5)
-frame_search.pack(fill=tk.X)
+frame_search.pack(fill=tk.X, anchor=tk.NW)
 
 search_label = tk.Label(frame_search, text="Search:")
 search_label.pack(side=tk.LEFT, padx=5)
@@ -127,22 +129,43 @@ search_entry = tk.Entry(frame_search, textvariable=search_var)
 search_entry.pack(fill=tk.X, padx=5)
 search_entry.bind("<KeyRelease>", on_search)
 
-frame_list = tk.Frame(frame_main)
-frame_list.pack(fill=tk.BOTH, expand=True)
+frame_center = ttk.Frame(frame_main)
+frame_center.pack(fill=tk.Y, expand=True)
+
+#main list
+frame_list = ttk.Frame(frame_center)
+frame_list.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
 scrollbar = tk.Scrollbar(frame_list)
 scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-listbox = tk.Listbox(frame_list, yscrollcommand=scrollbar.set)
-listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+listbox = tk.Listbox(frame_list, yscrollcommand=scrollbar.set, width=50)
+listbox.pack(expand=True, fill=tk.Y)
 scrollbar.config(command=listbox.yview)
 
 update_listbox()
 
-frame_entry = tk.Frame(frame_main, padx=5, pady=5)
-frame_entry.pack(anchor='sw', fill=tk.X)
+#translater
+frame_translater = ttk.Frame(frame_center)
+frame_translater.pack(fill=tk.BOTH, side=tk.RIGHT, expand=True)
 
-new_word_en_label = tk.Label(frame_entry, text="New English word:")
+translater_label = tk.Label(frame_translater, text = "Translater:")
+translater_label.pack()
+
+ask_translation = tk.Entry(frame_translater)
+ask_translation.pack()
+
+button_translater = tk.Button(frame_translater, text="traslate")
+button_translater.pack()
+
+translate_res = tk.Text(frame_translater, height=10, width=50)
+translate_res.pack()
+
+#the lower part of the application.
+frame_entry = tk.Frame(frame_main, padx=5, pady=5)
+frame_entry.pack(anchor=tk.SW, fill=tk.X)
+
+new_word_en_label = tk.Label(frame_entry, text="New english word:")
 new_word_en_label.grid(row=0, column=0, padx=5, pady=5)
 add_new_word = tk.Entry(frame_entry)
 add_new_word.grid(row=1, column=0, padx=5, pady=5)
