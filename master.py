@@ -140,7 +140,7 @@ scrollbar = tk.Scrollbar(frame_list)
 scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
 listbox = tk.Listbox(frame_list, yscrollcommand=scrollbar.set, width=50)
-listbox.pack(expand=True, fill=tk.Y)
+listbox.pack(side=tk.LEFT, expand=True, fill=tk.Y)
 scrollbar.config(command=listbox.yview)
 
 update_listbox()
@@ -153,13 +153,13 @@ translater_label = tk.Label(frame_translater, text = "Translater:")
 translater_label.pack()
 
 ask_translation = tk.Entry(frame_translater)
-ask_translation.pack()
+ask_translation.pack(fill=tk.X)
 
 button_translater = tk.Button(frame_translater, text="traslate")
-button_translater.pack()
+button_translater.pack(fill=tk.X)
 
-translate_res = tk.Text(frame_translater, height=10, width=50)
-translate_res.pack()
+translate_res = tk.Entry(frame_translater)
+translate_res.pack(fill=tk.X)
 
 #the lower part of the application.
 frame_entry = tk.Frame(frame_main, padx=5, pady=5)
