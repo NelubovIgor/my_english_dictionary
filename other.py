@@ -6,13 +6,20 @@ from dataclasses import dataclass, field
 from functools import lru_cache, partial
 import heapq
 from enum import Enum, auto
+import bisect
+
+a = [1, 2, 4]
+i = bisect.bisect(a, 3)
+a.insert(i, 3)
+
+print(f"{i}, {a}")
 
 class Color(Enum):
     RED = auto()
     BLUE = 2
     GREEN = auto()
 
-print([c.value for c in Color])
+# print([c.value for c in Color])
 
 nums = [4, 1, 7, 3]
 heapq.heapify(nums)
