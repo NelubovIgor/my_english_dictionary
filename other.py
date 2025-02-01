@@ -4,14 +4,29 @@ from operator import itemgetter
 from itertools import groupby
 from dataclasses import dataclass, field
 from functools import lru_cache, partial
+import heapq
+from enum import Enum, auto
+
+class Color(Enum):
+    RED = auto()
+    BLUE = 2
+    GREEN = auto()
+
+print([c.value for c in Color])
+
+nums = [4, 1, 7, 3]
+heapq.heapify(nums)
+
+# print([heapq.heappop(nums) for _ in range(2)])
+# print(nums)
 
 def foo(x=[]):
     x.append(1)
     return len(x)
 
-print(foo())
-print(foo())
-print(foo([]))
+# print(foo())
+# print(foo())
+# print(foo([]))
 
 def add(x, y=0, z=0): return x + y + z
 f1 = partial(add, 1)
