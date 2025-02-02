@@ -3,6 +3,9 @@ from itertools import zip_longest
 
 a = [1, 2]
 b = [3, 4, 5]
+c = list(zip_longest(a, b, fillvalue=0))
+
+print(c)
 
 def safe_int(x: Any) -> tuple[bool, int]:
     try:
