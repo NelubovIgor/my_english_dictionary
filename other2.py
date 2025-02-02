@@ -1,11 +1,21 @@
 from typing import Any
 from itertools import zip_longest
 
+
+class A:
+    def __enter__(self): return self
+    def __exit__(self, *args): return True
+    def __call__(self): return ValueError
+
+with A() as a:
+    a()
+print("OK")
+
 a = [1, 2]
 b = [3, 4, 5]
 c = list(zip_longest(a, b, fillvalue=0))
 
-print(c)
+# print(c)
 
 def safe_int(x: Any) -> tuple[bool, int]:
     try:
